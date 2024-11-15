@@ -1,4 +1,2 @@
-# dev-test-tg-bot
-
-использует телеграф
-https://github.com/telegraf/telegraf
+## используется
+[grammy](https://grammy.dev/)

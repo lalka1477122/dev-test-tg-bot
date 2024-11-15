@@ -1,23 +1,18 @@
 {
   "name": "dev-test-tg-bot",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "type": "commonjs",
+  "main": "index.js",
   "scripts": {
-    "start": "node main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "telegraf": "^4.16.3",
-    "typescript": "^5.6.3"
-  },
-  "devDependencies": {
-    "@elbrus/eslint-config": "^1.0.0",
-    "@eslint/js": "^9.14.0",
-    "eslint": "^9.14.0",
-    "globals": "^15.12.0"
+    "dotenv": "^16.4.5",
+    "grammy": "^1.31.3",
+    "nodemon": "^3.1.7"
   }
 }
