@@ -1,47 +1,74 @@
 require('dotenv').config();
-const { Bot, GrammyError, HttpError } = require('grammy');
+const { REFUSED } = require('dns');
+const { Bot, GrammyError, HttpError, Keyboard, InlineKeyboard} = require('grammy');
 
 const bot = new Bot(process.env.BOT_TOKEN_KEY);// токен бота
+
+
 bot.api.setMyCommands([
     { command: 'start', description: 'начало работы' },
     { command: 'help', description: 'помощь' },
-
+    { command: 'menu', description: 'вызов меню' },
 ])
 
+bot.command("start", async (ctx) =>
+    {
+        const inlineKeyboard = new InlineKeyboard()
+        .url("Перейти", "https://t.me/Dev_test_bot")
 
-
-bot.command("start", async (ctx) => await ctx.reply(`привет, ${ctx.from.first_name} ${ new Date().toLocaleTimeString().slice(0,-3)}`)); // команда /start
-bot.command("help", async (ctx) => await ctx.reply(`  `)); // команда /help
-
-
-
-
-
-
-
+        await ctx.reply(`Привет, ${ctx.from.first_name} \nНиже ссылка на наш сайт\n \n(^///^)`, { reply_markup: inlineKeyboard })
+     
+    }
+)
 
 
 
 
 
 
-bot.on("message:photo", async (ctx) => await ctx.reply(`нахуй мне фото`));
-bot.on("message:video", async (ctx) => await ctx.reply(`нахуй мне видео`));
-bot.on("message:sticker", async (ctx) => await ctx.reply(`нахуй мне стикеры`));
-bot.on("message:voice", async (ctx) => await ctx.reply(`нахуй мне голосовые`));
-bot.on("message:video_note", async (ctx) => await ctx.reply(`нахуй мне видео ноты`));
-bot.on("message:animation", async (ctx) => await ctx.reply(`нахуй мне анимации`));
-bot.on("message:location", async (ctx) => await ctx.reply(`нахуй мне локацию`));
-bot.on("message:contact", async (ctx) => await ctx.reply(`нахуй мне контакты`));
-bot.on("message:file", async (ctx) => await ctx.reply(`нахуй мне файлы`));
-bot.on("message:invoice", async (ctx) => await ctx.reply(`нахуй мне счета`));
-bot.on("message:game", async (ctx) => await ctx.reply(`нахуй мне игры`));
-bot.on("message:document", async (ctx) => await ctx.reply(`нахуй мне документы`));
+// команда /start
+bot.command("help", async (ctx) => await ctx.reply(`нашел баг? \nнапиши => @Laila123g`)); // команда /help
+
+bot.command("menu", async (ctx) => 
+    // создаем клавиатуру
+    {
+        const inlineKeyboard = new InlineKeyboard()
+        .text("« 1", "first")
+        .text("‹ 3", "prev")
+        .text("· 4 ·", "stay")
+        .text("5 ›", "next")
+        .text("31 »", "last");
+        await ctx.reply('выбор', { reply_markup: inlineKeyboard })
+     
+    }
+) 
+function chooseTheDifficulty() {
+    const picker = new Keyboard()
+    .text('Легко')
+    .text('Средний')
+    .text('Сложно')
+    .resized()
+    return picker
+} // function chooseTheifficulty
+
+
+bot.hears(['HTML', 'CSS', 'JS', 'PHP', 'PYTHON', 'REACT', 'JAVA'], async (ctx) => {
+    programmingLanguage = ctx.match
+    await ctx.reply('вы выбрали ' + ctx.match)
+    await ctx.reply('выберите уровень сложности', { reply_markup: chooseTheDifficulty() })
+})
+bot.hears(['Легко', 'Средний', 'Сложно'], async (ctx) => {
+    complexity = ctx.match
+    await ctx.reply('вы выбрали ' + ctx.match)
+    await ctx.reply(complexity)
+    
+}) 
 
 
 
 
 
+// ОБРАБОТЧИК ОШИБОК
 bot.catch((err) => {
     if (err instanceof GrammyError) {
         console.error('Error in request:', err.description);
@@ -51,4 +78,5 @@ bot.catch((err) => {
         console.error('Unknown error:', err);
     }
 });
+
 bot.start();
